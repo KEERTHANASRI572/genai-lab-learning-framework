@@ -1,0 +1,52 @@
+{
+  "name": "genai-lab-learning-framework-backend",
+  "version": "0.1.0",
+  "description": "Backend service for Generative AI Framework for Personalized Laboratory Learning Environments",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "node scripts/devServer.js",
+    "type-check": "tsc --noEmit",
+    "build": "tsc",
+    "test": "tsx src/scripts/verifyCrud.ts",
+    "test:auth": "tsx src/scripts/verifyAuth.ts",
+    "test:crud": "tsx src/scripts/verifyCrud.ts",
+    "test:models": "tsx src/scripts/verifyModels.ts",
+    "test:college-admin": "tsx src/scripts/verifyCollegeAdminRealData.ts",
+    "test:persistence": "tsx src/scripts/verifyPersistence.ts",
+    "seed:admin": "tsx src/scripts/seedPlatformAdmin.ts",
+    "seed:lab": "tsx src/scripts/seedLabEnvironment.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1159.0",
+    "@aws-sdk/s3-request-presigner": "^3.1159.0",
+    "@types/multer": "^2.3.0",
+    "@types/pdf-parse": "^1.1.5",
+    "@types/uuid": "^10.0.0",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "file-type": "^22.2.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.11.2",
+    "multer": "^2.5.0",
+    "nodemailer": "^10.3.1",
+    "pdf-parse": "^2.4.5",
+    "uuid": "^14.0.3"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^22.10.2",
+    "@types/nodemailer": "^8.0.2",
+    "puppeteer-core": "^25.16.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "private": true
+}
