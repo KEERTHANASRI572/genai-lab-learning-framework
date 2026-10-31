@@ -43,8 +43,7 @@ tmp/
 # Uploaded documents, institutional courseware, and local file storage
 uploads/
 **/uploads/
-storage/
-**/storage/
+!backend/src/storage/
 
 # Credentials, certificates, and private keys
 *.pem

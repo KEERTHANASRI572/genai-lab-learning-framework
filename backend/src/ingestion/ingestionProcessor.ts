@@ -49,16 +49,22 @@ export const processIngestionJob = async (jobId: string): Promise<void> => {
     const resource = await LearningResource.findById(job.resourceId).exec();
     if (!resource) throw new Error('Associated learning resource not found');
 
-    // Direct S3 client usage
-    const { GetObjectCommand } = await import('@aws-sdk/client-s3');
-    const { s3Client } = await import('../storage/s3StorageProvider');
-    const getCmd = new GetObjectCommand({ Bucket: process.env['STORAGE_BUCKET']!, Key: resource.storageKey });
-    const resp = await s3Client.send(getCmd);
-    const bufferChunks: Uint8Array[] = [];
-    for await (const chunk of (resp.Body as any)) {
-      bufferChunks.push(chunk);
+    const { getStorageProvider } = await import('../storage/storageFactory');
+    const storageProvider = getStorageProvider();
+    let fileBuffer: Buffer;
+    if (typeof storageProvider.getBuffer === 'function') {
+      fileBuffer = await storageProvider.getBuffer(resource.storageKey);
+    } else {
+      const { GetObjectCommand } = await import('@aws-sdk/client-s3');
+      const { s3Client } = await import('../storage/s3StorageProvider');
+      const getCmd = new GetObjectCommand({ Bucket: process.env['STORAGE_BUCKET']!, Key: resource.storageKey });
+      const resp = await s3Client.send(getCmd);
+      const bufferChunks: Uint8Array[] = [];
+      for await (const chunk of (resp.Body as any)) {
+        bufferChunks.push(chunk);
+      }
+      fileBuffer = Buffer.concat(bufferChunks);
     }
-    const fileBuffer = Buffer.concat(bufferChunks);
 
     // Extract text
     const { text } = await extractTextFromBuffer(fileBuffer, resource.mimeType);
