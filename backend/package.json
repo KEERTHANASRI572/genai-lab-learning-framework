@@ -5,8 +5,9 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "node scripts/devServer.js",
-    "type-check": "tsc --noEmit",
     "build": "tsc",
+    "start": "node dist/server.js",
+    "type-check": "tsc --noEmit",
     "test": "tsx src/scripts/verifyCrud.ts",
     "test:auth": "tsx src/scripts/verifyAuth.ts",
     "test:crud": "tsx src/scripts/verifyCrud.ts",

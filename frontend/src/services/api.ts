@@ -1,4 +1,10 @@
-const API_BASE = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_BASE_URL) || 'http://localhost:5000/api/v1';
+const rawApiBase = typeof import.meta !== 'undefined' ? import.meta.env?.VITE_API_BASE_URL : undefined;
+const rawBackendBase = typeof import.meta !== 'undefined' ? import.meta.env?.VITE_BACKEND_URL : undefined;
+
+const API_BASE =
+  rawApiBase ||
+  (rawBackendBase ? `${rawBackendBase.replace(/\/+$/, '')}/api/v1` : '') ||
+  'http://localhost:5000/api/v1';
 
 export interface ApiResponse<T> {
   success: boolean;

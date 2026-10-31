@@ -325,8 +325,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Check actual live backend health from localhost:5000 (Express server)
   const refreshBackendHealth = async () => {
+    const rawBackendBase = typeof import.meta !== 'undefined' ? import.meta.env?.VITE_BACKEND_URL : undefined;
+    const rawApiBase = typeof import.meta !== 'undefined' ? import.meta.env?.VITE_API_BASE_URL : undefined;
+
     const backendBase =
-      (typeof import.meta !== 'undefined' && import.meta.env?.VITE_BACKEND_URL) || 'http://localhost:5000';
+      rawBackendBase ||
+      (rawApiBase ? rawApiBase.replace(/\/api\/v1\/?$/, '') : '') ||
+      'http://localhost:5000';
     try {
       const liveRes = await fetch(`${backendBase}/api/health`);
       const isLive = liveRes.ok;

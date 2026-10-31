@@ -46,8 +46,8 @@ const startServer = async (): Promise<void> => {
     }
   });
 
-  // 4. Start listening on configured port
-  server.listen(config.PORT, () => {
+  // 4. Start listening on configured port (bind explicitly to 0.0.0.0 for containerized environments like Render)
+  server.listen(config.PORT, '0.0.0.0', () => {
     console.log(`[server] Backend running in ${config.NODE_ENV} mode on port ${config.PORT}`);
     console.log(`[server] Liveness check available at: http://localhost:${config.PORT}/api/health`);
     console.log(`[server] Readiness check available at: http://localhost:${config.PORT}/api/health/ready`);
